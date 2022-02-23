@@ -4,7 +4,20 @@
 
 <main>
 	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+    <div class="wrapper">
+       <h2>List</h2>
+	       <ul class="item-list">
+		   </ul>
+	</div>
+	<footer>
+		<form class="new-item-form">
+		<div class="field">
+			<label>Details:</label>
+			<input type="text" id="details">
+		</div>
+		<button>Add</button>
+		</form>
+	</footer>
 </main>
 
 <style>
