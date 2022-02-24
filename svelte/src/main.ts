@@ -1,4 +1,6 @@
 import App from './App.svelte';
+import { createClient } from 'graphql-ws';
+import { ws } from 'ws';
 
 const app = new App({
 	target: document.body,
@@ -6,6 +8,40 @@ const app = new App({
 		name: 'list'
 	}
 });
+
+export const createWebsocketClient = () => createClient({
+    url: 'ws://127.0.0.1:3000/v1/graphql',
+/*    webSocketImpl: ws,
+    connectionParams: async () => {
+      return {
+        headers: {
+          "x-hasura-admin-secret": "mylongsecretkey",
+        },
+      };
+    },
+    */
+  });
+  
+
+const client = createWebsocketClient();
+
+(async () => {
+    const result = await new Promise((resolve, reject) => {
+      let result;
+      client.subscribe(
+        {
+          query: '{temperature { recorded_at temperature location}}'
+        },
+        {
+          next: (data) => (result = data),
+          error: reject,
+          complete: () => resolve(result),
+        },
+      );
+    });
+  
+    console.log(result);
+  })();
 
 interface HasFormatter {
     format(): string;
